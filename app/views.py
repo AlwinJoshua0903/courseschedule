@@ -57,8 +57,6 @@ def admin_dashboard(request):
          print(Schedule)
          course=coursetaken.objects.all()
          print(course)
-         course1=coursetaken.objects.all().values()
-         print(course1)
          context = {
         'Schedule': Schedule,
         'course': course
@@ -72,7 +70,7 @@ def student_dashboard(request):
         return HttpResponse("You are not authorized to view this page.")
     else:
          Studen=schedule.objects.all() # Fetch all schedule entries
-         print(Student)
+
       
     if request.method == "POST":
         batch_id=request.POST.get("batch_id")
@@ -85,16 +83,9 @@ def student_dashboard(request):
         date_obj = datetime.strptime(date_str, "%b. %d, %Y")
         # Format the date to YYYY-MM-DD
         formatted_date = date_obj.strftime("%Y-%m-%d")  
-        time_str=start_time
-        time_str = time_str.replace(".", "")
-        time_obj = datetime.strptime(time_str, "%I:%M %p")
-         # Now format the time to a 24-hour format
-        formatted_time = time_obj.strftime("%H:%M:%S")
-        time_stri=end_time
-        time_stri = time_stri.replace(".", "")
-        time_obj1 = datetime.strptime(time_stri, "%I:%M %p")
-         # Now format the time to a 24-hour format
-        formatted_time1 = time_obj1.strftime("%H:%M:%S")
+        stund = get_object_or_404(schedule, batch_id=batch_id)
+        formatted_time=stund.start_time
+        formatted_time1=stund.end_time
         stud= request.user.username  # Get the logged-in username
         result = User.objects.get(username=stud)
         result1 = Student.objects.get(user_id=result.id)
@@ -145,11 +136,17 @@ def edit_schedule(request, batch_id):
         Schedule.trainer = request.POST['sirname']
         Schedule.course_name = request.POST['course_name']
         Schedule.batch_date = request.POST['batch_date']
+        print(Schedule.batch_date)
         Schedule.start_time = request.POST['start_time']
+        print(Schedule.start_time)
         Schedule.end_time = request.POST['end_time']
+        print(Schedule.end_time)
         Schedule.save()
         return redirect('admin_dashboard')
-    
+    Schedule.batch_date = Schedule.batch_date.strftime("%Y-%m-%d")
+    Schedule.start_time = Schedule.start_time.strftime("%H:%M")  # Format to HH:MM
+    Schedule.end_time = Schedule.end_time.strftime("%H:%M")  # Format to HH:MM
+
     # Render the edit form with the fetched schedule data
     return render(request, 'edit.html', {'Schedule': Schedule})
 def delete_schedule(request,batch_id):
