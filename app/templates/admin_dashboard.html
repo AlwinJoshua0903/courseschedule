@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+    <script>
+    function btnclick(){
+    }</script>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+   
+
+    <h2>Schedule</h2>
+    <button onclick="window.location.href='/add/'">Add</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Batch ID</th>
+                <th>Instructor</th>
+                <th>Course Name</th>
+                <th>Batch Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th colspan="2">changes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in Schedule %}
+            <tr>
+                <td>{{ item.batch_id }}</td>
+                <td>{{ item.trainer }}</td>
+                <td>{{ item.course_name }}</td>
+                <td>{{ item.batch_date }}</td>
+                <td>{{ item.start_time }}</td>
+                <td>{{ item.end_time }}</td>
+                <td><button onclick="window.location.href='/edit/{{item.batch_id}}/'">edit</button></td>
+                <td>
+                    <button onclick="window.location.href='/admin_dashboard/{{item.batch_id}}/'">Delete</button> 
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Student Name</th>
+                <th>Student Email</th>
+                <th>Student Phonenumber</th>
+                <th>Batch ID</th>
+                <th>Instructor</th>
+                <th>Course Name</th>
+                <th>Batch Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for items in course %}
+            <tr>
+                <td>{{ items.student_id }}</td>
+                <td>{{ items.studentname }}</td>
+                <td>{{ items.email }}</td>
+                <td>{{ items.phone_number }}</td>
+                <td>{{ items.batch_id }}</td>
+                <td>{{ items.trainer }}</td>
+                <td>{{ items.course_name }}</td>
+                <td>{{ items.batch_date }}</td>
+                <td>{{ items.start_time }}</td>
+                <td>{{ items.end_time }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

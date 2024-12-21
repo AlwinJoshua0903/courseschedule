@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Scheduling</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Scheduling</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="batchid" placeholder="Batch id" value={{Schedule.batch_id}} required>
+            <input type="text" name="sirname" placeholder="Sir Name" value={{Schedule.trainer}} required>
+            <input type="text" name="course_name" placeholder="Course Name" value={{Schedule.course_name}} required>
+            <input type="date" name="batch_date" placeholder="Course Date" value={{Schedule.batch_date}} required>
+            <input type="time" name="start_time" placeholder="Start Time" value={{Schedule.start_time}} required>
+            <input type="time" name="end_time" placeholder="End Time" value={{Schedule.end_time}} required>
+            <button type="submit">edit</button>
+        </form>
+    </div>
+</body>
+
+</html>

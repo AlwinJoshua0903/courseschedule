@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>student Dashboard</h1>
+   
+
+    <h2>Schedule</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Batch ID</th>
+                <th>Instructor</th>
+                <th>Course Name</th>
+                <th>Batch Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Apply</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in Schedule %}
+            <tr>
+                <td>{{ item.batch_id }}</td>
+                <td>{{ item.trainer }}</td>
+                <td>{{ item.course_name }}</td>
+                <td>{{ item.batch_date }}</td>
+                <td>{{ item.start_time }}</td>
+                <td>{{ item.end_time }}</td>
+                <td>
+                    <button onclick="handlePing('{{ item.batch_id }}', '{{ item.trainer }}','{{ item.course_name }}','{{ item.batch_date }}','{{ item.start_time }}','{{ item.end_time }}')">Ping</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+          async function handlePing(batchId, trainer, courseName, batchDate, startTime, endTime) {
+            try {
+                const response = await fetch('{% url "student_dashboard" %}', {  // Change this URL if necessary
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: new URLSearchParams({
+                        batch_id: batchId,
+                        trainer: trainer,
+                        course_name: courseName,
+                        batch_date: batchDate,
+                        start_time: startTime,
+                        end_time: endTime
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    alert("Successful! registered");
+                } else {
+                    alert("There was an issue with your request.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred while processing your request.");
+            }
+        }  
+    </script>
+    
+</body>
+</html>
