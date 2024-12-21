@@ -77,8 +77,6 @@ def student_dashboard(request):
         trainer=request.POST.get("trainer")
         course_name=request.POST.get("course_name")
         batch_date=request.POST.get("batch_date")
-        start_time=request.POST.get("start_time")
-        end_time=request.POST.get("end_time")
         date_str=batch_date
         date_obj = datetime.strptime(date_str, "%b. %d, %Y")
         # Format the date to YYYY-MM-DD
